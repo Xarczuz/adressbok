@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public interface PersonService {
-    Person addPerson(Person person);
+    Person createPerson(Person person);
 
     List<Person> getAllPerson();
 
