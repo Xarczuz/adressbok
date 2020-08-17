@@ -25,8 +25,8 @@ class AddressControllerTest {
 
     @Test
     void getAllPersons() throws Exception {
-        String expected = "[{\"id\":1,\"firstname\":\"Karl\",\"lastname\":\"Wii\",\"email\":\"Karl@gmail.com\",\"phonenr\":\"234-3463527\"},{\"id\":2,\"firstname\":\"James\",\"lastname\":\"KI\",\"email\":\"James@gmail.com\",\"phonenr\":\"24-2353485\"},{\"id\":3,\"firstname\":\"Sam\",\"lastname\":\"Django\",\"email\":\"Sam@gmail.com\",\"phonenr\":\"34-85623524\"}]";
-        //Get
+        String expected = "[{\"id\":1,\"firstname\":\"Karl\",\"lastname\":\"Wii\",\"email\":\"Karl@gmail.com\",\"phonenr\":\"234-3463527\",\"country\":\"Sweden\",\"address\":\"Arsta skolgränd 12B 117 43 Stockholm\"},{\"id\":2,\"firstname\":\"James\",\"lastname\":\"KI\",\"email\":\"James@gmail.com\",\"phonenr\":\"24-2353485\",\"country\":\"USA\",\"address\":\"9462 Brenda Ave Affton, MO 63123\"},{\"id\":3,\"firstname\":\"Sam\",\"lastname\":\"Django\",\"email\":\"Sam@gmail.com\",\"phonenr\":\"34-85623524\",\"country\":\"Finland\",\"address\":\"Keskusta 40100 Jyväskylä\"}";
+
         mockMvc.perform(get("/address")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -38,8 +38,8 @@ class AddressControllerTest {
 
     @Test
     void getPerson() throws Exception {
-        String expected = "{\"id\":1,\"firstname\":\"Karl\",\"lastname\":\"Wii\",\"email\":\"Karl@gmail.com\",\"phonenr\":\"234-3463527\"}";
-        //Get
+        String expected = "{\"id\":1,\"firstname\":\"Karl\",\"lastname\":\"Wii\",\"email\":\"Karl@gmail.com\",\"phonenr\":\"234-3463527\",\"country\":\"Sweden\",\"address\":\"Arsta skolgränd 12B 117 43 Stockholm\"}";
+
         mockMvc.perform(get("/address/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -51,7 +51,6 @@ class AddressControllerTest {
 
     @Test
     void getPersonFailTest() throws Exception {
-        //Get
         mockMvc.perform(get("/address/85")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -61,7 +60,6 @@ class AddressControllerTest {
 
     @Test
     void getPersonFailTest2() throws Exception {
-        //Get
         mockMvc.perform(get("/address/g")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -71,7 +69,7 @@ class AddressControllerTest {
 
     @Test
     void createPerson() throws Exception {
-        String expected = "{\"id\":4,\"firstname\":\"Par\",\"lastname\":\"Holmstrom\",\"email\":\"pear@gmail.com\",\"phonenr\":\"07-5851213\"}";
+        String expected = "{\"id\":4,\"firstname\":\"Par\",\"lastname\":\"Holmstrom\",\"email\":\"pear@gmail.com\",\"phonenr\":\"07-5851213\",\"country\":null,\"address\":null}";
         Person person = new Person();
         person.setFirstname("Par");
         person.setLastname("Holmstrom");
@@ -79,7 +77,7 @@ class AddressControllerTest {
         person.setPhonenr("07-5851213");
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(person);
-        //Post
+
         mockMvc.perform(post("/address")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
@@ -100,7 +98,7 @@ class AddressControllerTest {
         person.setPhonenr("07-5851213");
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(person);
-        //Post
+
         mockMvc.perform(post("/address")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -112,7 +110,7 @@ class AddressControllerTest {
 
     @Test
     void updatePerson() throws Exception {
-        String expected = "{\"id\":1,\"firstname\":\"Par\",\"lastname\":\"Holmstrom\",\"email\":\"pear@gmail.com\",\"phonenr\":\"07-5851213\"}";
+        String expected = "{\"id\":1,\"firstname\":\"Par\",\"lastname\":\"Holmstrom\",\"email\":\"pear@gmail.com\",\"phonenr\":\"07-5851213\",\"country\":\"Sweden\",\"address\":\"Arsta skolgränd 12B 117 43 Stockholm\"}";
         Person person = new Person();
         person.setId(1);
         person.setFirstname("Par");
@@ -121,7 +119,7 @@ class AddressControllerTest {
         person.setPhonenr("07-5851213");
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(person);
-        //Put
+
         mockMvc.perform(put("/address")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
@@ -136,14 +134,14 @@ class AddressControllerTest {
     @Test
     void updatePersonFailTest() throws Exception {
         Person person = new Person();
-        person.setId(53);
+        person.setId(53);//No such id
         person.setFirstname("Par");
         person.setLastname("Holmstrom");
         person.setEmail("pear@gmail.com");
         person.setPhonenr("07-5851213");
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(person);
-        //Put
+
         mockMvc.perform(put("/address")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
@@ -155,13 +153,13 @@ class AddressControllerTest {
 
     @Test
     void deletePerson() throws Exception {
-        String expected = "[{\"id\":2,\"firstname\":\"James\",\"lastname\":\"KI\",\"email\":\"James@gmail.com\",\"phonenr\":\"24-2353485\"},{\"id\":3,\"firstname\":\"Sam\",\"lastname\":\"Django\",\"email\":\"Sam@gmail.com\",\"phonenr\":\"34-85623524\"}]";
-        //Delete
+        String expected = "[{\"id\":2,\"firstname\":\"James\",\"lastname\":\"KI\",\"email\":\"James@gmail.com\",\"phonenr\":\"24-2353485\",\"country\":\"USA\",\"address\":\"9462 Brenda Ave Affton, MO 63123\"},{\"id\":3,\"firstname\":\"Sam\",\"lastname\":\"Django\",\"email\":\"Sam@gmail.com\",\"phonenr\":\"34-85623524\",\"country\":\"Finland\",\"address\":\"Keskusta 40100 Jyväskylä\"}]";
+
         mockMvc.perform(delete("/address/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        //Get
+
         mockMvc.perform(get("/address")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -173,7 +171,6 @@ class AddressControllerTest {
 
     @Test
     void deletePersonFailTest() throws Exception {
-        //Delete
         mockMvc.perform(delete("/address/155")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

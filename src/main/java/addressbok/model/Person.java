@@ -14,6 +14,8 @@ public class Person {
     private String lastname;
     private String email;
     private String phonenr;
+    private String country;
+    private String address;
 
     public Person() {
     }
@@ -26,6 +28,8 @@ public class Person {
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", phonenr='" + phonenr + '\'' +
+                ", country='" + country + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 
@@ -67,5 +71,21 @@ public class Person {
 
     public void setPhonenr(String phonenr) {
         this.phonenr = phonenr;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
