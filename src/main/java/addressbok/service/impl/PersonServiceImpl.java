@@ -5,6 +5,7 @@ import addressbok.repo.PersonRepo;
 import addressbok.service.PersonService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -36,12 +37,19 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person updatePerson(Person person) {
-        Person person1 = personRepo.getOne(person.getId());
-        person1.setFirstname(person.getFirstname());
-        person1.setLastname(person.getLastname());
-        person1.setEmail(person.getEmail());
-        person1.setPhonenr(person.getPhonenr());
-        return personRepo.save(person1);
+    public Person updatePerson(Person person) throws Exception {
+
+        try {
+            Person person1 = personRepo.getOne(person.getId());
+            person1.setFirstname(person.getFirstname());
+            person1.setLastname(person.getLastname());
+            person1.setEmail(person.getEmail());
+            person1.setPhonenr(person.getPhonenr());
+            return personRepo.save(person1);
+        } catch (EntityNotFoundException e) {
+
+            throw new Exception();
+
+        }
     }
 }

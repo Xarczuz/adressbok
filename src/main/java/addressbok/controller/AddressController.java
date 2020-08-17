@@ -23,7 +23,7 @@ public class AddressController {
     public ResponseEntity<List<Person>> getAllPerson() {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(personService.getAllPerson());
-        } catch (DataIntegrityViolationException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
@@ -42,7 +42,7 @@ public class AddressController {
         try {
             personService.addPerson(person);
             return ResponseEntity.status(HttpStatus.CREATED).body(personService.getPerson(person.getId()));
-        } catch (DataIntegrityViolationException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
@@ -50,9 +50,8 @@ public class AddressController {
     @PutMapping("")
     public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
         try {
-            personService.updatePerson(person);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(personService.updatePerson(person));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
@@ -62,7 +61,7 @@ public class AddressController {
         try {
             personService.deletePerson(id);
             return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (DataIntegrityViolationException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

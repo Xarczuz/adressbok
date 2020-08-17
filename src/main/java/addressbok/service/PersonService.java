@@ -13,5 +13,5 @@ public interface PersonService {
 
     void deletePerson(int id);
 
-    Person updatePerson(Person person);
+    Person updatePerson(Person person) throws Exception;
 }
