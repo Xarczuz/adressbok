@@ -39,8 +39,7 @@ public class AddressController {
     @PostMapping("")
     public ResponseEntity<Person> addPerson(@RequestBody Person person) {
         try {
-            personService.addPerson(person);
-            return ResponseEntity.status(HttpStatus.CREATED).body(personService.getPerson(person.getId()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(personService.addPerson(person));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
