@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -27,15 +27,12 @@ class AddressControllerTest {
     void getAllPersons() throws Exception {
         String expected = "[{\"id\":1,\"firstname\":\"Karl\",\"lastname\":\"Wii\",\"email\":\"Karl@gmail.com\",\"phonenr\":\"234-3463527\"},{\"id\":2,\"firstname\":\"James\",\"lastname\":\"KI\",\"email\":\"James@gmail.com\",\"phonenr\":\"24-2353485\"},{\"id\":3,\"firstname\":\"Sam\",\"lastname\":\"Django\",\"email\":\"Sam@gmail.com\",\"phonenr\":\"34-85623524\"}]";
         //Get
-        String response = mockMvc.perform(get("/address")
+        mockMvc.perform(get("/address")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        assertEquals(expected, response);
+                .andExpect(content().string(containsString(expected)));
 
     }
 
@@ -43,15 +40,12 @@ class AddressControllerTest {
     void getPerson() throws Exception {
         String expected = "{\"id\":1,\"firstname\":\"Karl\",\"lastname\":\"Wii\",\"email\":\"Karl@gmail.com\",\"phonenr\":\"234-3463527\"}";
         //Get
-        String response = mockMvc.perform(get("/address/1")
+        mockMvc.perform(get("/address/1")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        assertEquals(expected, response);
+                .andExpect(content().string(containsString(expected)));
 
     }
 
@@ -62,6 +56,7 @@ class AddressControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+
     }
 
     @Test
@@ -71,6 +66,7 @@ class AddressControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+
     }
 
     @Test
@@ -84,16 +80,14 @@ class AddressControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(person);
         //Post
-        String response = mockMvc.perform(post("/address")
+        mockMvc.perform(post("/address")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        assertEquals(expected, response);
+                .andExpect(content().string(containsString(expected)));
 
     }
 
@@ -108,6 +102,7 @@ class AddressControllerTest {
         String json = mapper.writeValueAsString(person);
         //Post
         mockMvc.perform(post("/address")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andDo(print())
@@ -127,16 +122,14 @@ class AddressControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(person);
         //Put
-        String response = mockMvc.perform(put("/address")
+        mockMvc.perform(put("/address")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        assertEquals(expected, response);
+                .andExpect(content().string(containsString(expected)));
 
     }
 
@@ -169,15 +162,12 @@ class AddressControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
         //Get
-        String response = mockMvc.perform(get("/address")
+        mockMvc.perform(get("/address")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        assertEquals(expected, response);
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(containsString(expected)))
+                .andExpect(status().isOk());
 
     }
 
