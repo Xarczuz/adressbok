@@ -28,7 +28,7 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> getPerson(@PathVariable("id") int id) throws Exception {
+    public ResponseEntity<Person> getPerson(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(personService.getPerson(id));
         } catch (NoSuchElementException e) {
@@ -49,7 +49,7 @@ public class AddressController {
     public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(personService.updatePerson(person));
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

@@ -5,7 +5,6 @@ import addressbok.repo.PersonRepo;
 import addressbok.service.PersonService;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,9 +37,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person updatePerson(Person person) throws EntityNotFoundException {
+    public Person updatePerson(Person person) throws NoSuchElementException {
 
-        Person person1 = personRepo.getOne(person.getId());
+        Person person1 = personRepo.findById(person.getId()).orElseThrow(NoSuchElementException::new);
         person1.setFirstname(person.getFirstname());
         person1.setLastname(person.getLastname());
         person1.setEmail(person.getEmail());
