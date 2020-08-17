@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -27,8 +28,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person getPerson(int id) {
-        return personRepo.findById(id).get();
+    public Person getPerson(int id) throws NoSuchElementException {
+        return personRepo.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -37,19 +38,14 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person updatePerson(Person person) throws Exception {
+    public Person updatePerson(Person person) throws EntityNotFoundException {
 
-        try {
-            Person person1 = personRepo.getOne(person.getId());
-            person1.setFirstname(person.getFirstname());
-            person1.setLastname(person.getLastname());
-            person1.setEmail(person.getEmail());
-            person1.setPhonenr(person.getPhonenr());
-            return personRepo.save(person1);
-        } catch (EntityNotFoundException e) {
+        Person person1 = personRepo.getOne(person.getId());
+        person1.setFirstname(person.getFirstname());
+        person1.setLastname(person.getLastname());
+        person1.setEmail(person.getEmail());
+        person1.setPhonenr(person.getPhonenr());
+        return personRepo.save(person1);
 
-            throw new Exception();
-
-        }
     }
 }

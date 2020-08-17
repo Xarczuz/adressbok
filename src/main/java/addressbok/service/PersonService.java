@@ -9,7 +9,7 @@ public interface PersonService {
 
     List<Person> getAllPerson();
 
-    Person getPerson(int id);
+    Person getPerson(int id) throws Exception;
 
     void deletePerson(int id);
 

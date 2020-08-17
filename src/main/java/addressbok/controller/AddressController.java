@@ -2,7 +2,6 @@ package addressbok.controller;
 
 import addressbok.model.Person;
 import addressbok.service.PersonService;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> getPerson(@PathVariable("id") int id) {
+    public ResponseEntity<Person> getPerson(@PathVariable("id") int id) throws Exception {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(personService.getPerson(id));
         } catch (NoSuchElementException e) {
