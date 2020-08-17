@@ -38,7 +38,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person updatePerson(Person person) throws NoSuchElementException {
-
         Person person1 = personRepo.findById(person.getId()).orElseThrow(NoSuchElementException::new);
         person1.setFirstname(person.getFirstname());
         person1.setLastname(person.getLastname());
